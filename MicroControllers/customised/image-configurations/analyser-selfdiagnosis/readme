@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t analyser-selfdiagnosis .
+docker tag analyser-selfdiagnosis californibrs/analyser-selfdiagnosis
+docker push californibrs/analyser-selfdiagnosis
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

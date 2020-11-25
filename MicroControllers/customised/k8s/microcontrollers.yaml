@@ -1,0 +1,260 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configurations
+spec:
+  selector:
+    matchLabels:
+      app: configurations
+  template:
+    metadata:
+      labels:
+        app: configurations
+    spec:
+      containers:
+      - name: configurations
+        image: californibrs/configurations-configuration1  #initial image
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: configurations
+spec:
+  type: LoadBalancer
+  selector:
+    app: configurations
+  ports:
+  - port: 5000 # port from application
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitorproactivemonitoring
+spec:
+  selector:
+    matchLabels:
+      app: monitorproactivemonitoring
+  template:
+    metadata:
+      labels:
+        app: monitorproactivemonitoring
+    spec:
+      containers:
+      - name: monitorproactivemonitoring
+        image: californibrs/monitor-proactivemonitoring 
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitorproactivemonitoring
+spec:
+  type: LoadBalancer
+  selector:
+    app: monitorproactivemonitoring
+  ports:
+  - port: 5001 # port from application
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitordynamicmonitoring
+spec:
+  selector:
+    matchLabels:
+      app: monitordynamicmonitoring
+  template:
+    metadata:
+      labels:
+        app: monitordynamicmonitoring
+    spec:
+      containers:
+      - name: monitordynamicmonitoring
+        image: californibrs/monitor-dynamicmonitoring 
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+            
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: monitordynamicmonitoring
+spec:
+  type: LoadBalancer
+  selector:
+    app: monitordynamicmonitoring
+  ports:
+  - port: 5002 # port from application
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analyserselfdiagnosis
+spec:
+  selector:
+    matchLabels:
+      app: analyserselfdiagnosis
+  template:
+    metadata:
+      labels:
+        app: analyserselfdiagnosis
+    spec:
+      containers:
+      - name: analyserselfdiagnosis
+        image: californibrs/analyser-selfdiagnosis
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analyserselfdiagnosis
+spec:
+  type: LoadBalancer
+  selector:
+    app: analyserselfdiagnosis
+  ports:
+  - port: 5003 # port from application
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analyserreliabilityestimation
+spec:
+  selector:
+    matchLabels:
+      app: analyserreliabilityestimation
+  template:
+    metadata:
+      labels:
+        app: analyserreliabilityestimation
+    spec:
+      containers:
+      - name: analyserreliabilityestimation
+        image: californibrs/analyser-reliabilityestimation
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analyserreliabilityestimation
+spec:
+  type: LoadBalancer
+  selector:
+    app: analyserreliabilityestimation
+  ports:
+  - port: 5004 # port from application
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: microcontrollers-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+
+      #Endpoints for configurations
+      - path: /targets
+        backend:
+          serviceName: configurations
+          servicePort: 5000
+
+      #Endpoints A-C: ProactiveMonitoring
+      - path: /monitoroperationa
+        backend:
+          serviceName: monitorproactivemonitoring
+          servicePort: 5001
+      - path: /monitoroperationb
+        backend:
+          serviceName: monitorproactivemonitoring
+          servicePort: 5001
+      - path: /monitoroperationc
+        backend:
+          serviceName: monitorproactivemonitoring
+          servicePort: 5001   
+
+        #Endpoints D-F: DynamicMonitoring
+      - path: /monitoroperationd
+        backend:
+          serviceName: monitordynamicmonitoring
+          servicePort: 5002
+      - path: /monitoroperatione
+        backend:
+          serviceName: monitordynamicmonitoring
+          servicePort: 5002
+      - path: /monitoroperationf
+        backend:
+          serviceName: monitordynamicmonitoring
+          servicePort: 5002   
+        
+
+        #Endpoints G-I: Selfdiagnosis
+      - path: /analyseroperationg
+        backend:
+          serviceName: analyserselfdiagnosis
+          servicePort: 5003
+      - path: /analyseroperationh
+        backend:
+          serviceName: analyserselfdiagnosis
+          servicePort: 5003
+      - path: /analyseroperationi
+        backend:
+          serviceName: analyserselfdiagnosis
+          servicePort: 5003
+
+        #Endpoints J-L: RealiabilityEstimation
+      - path: /analyseroperationj
+        backend:
+          serviceName: analyserreliabilityestimation
+          servicePort: 5004
+      - path: /analyseroperationk
+        backend:
+          serviceName: analyserreliabilityestimation
+          servicePort: 5004
+      - path: /analyseroperationl
+        backend:
+          serviceName: analyserreliabilityestimation
+          servicePort: 5004

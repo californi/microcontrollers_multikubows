@@ -1,0 +1,7 @@
+httpx
+fastapi
+uvicorn
+pydantic 
+asyncio
+aiohttp
+requests

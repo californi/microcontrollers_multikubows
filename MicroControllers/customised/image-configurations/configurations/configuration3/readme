@@ -1,0 +1,8 @@
+# Building and deploying in docker hub
+docker build -t configurations-configuration3 .
+docker tag configurations-configuration3 californibrs/configurations-configuration3
+docker push californibrs/configurations-configuration3
+
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

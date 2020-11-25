@@ -1,0 +1,6 @@
+httpx
+fastapi
+uvicorn
+pydantic 
+asyncio
+kubernetes

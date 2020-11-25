@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t analyser-reliabilityestimation .
+docker tag analyser-reliabilityestimation californibrs/analyser-reliabilityestimation
+docker push californibrs/analyser-reliabilityestimation
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

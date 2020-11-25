@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t kubeznn-scalability .
+docker tag kubeznn-scalability californibrs/kubeznn-scalability
+docker push californibrs/kubeznn-scalability
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

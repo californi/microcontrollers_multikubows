@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t monitor-dynamicmonitoring .
+docker tag monitor-dynamicmonitoring californibrs/monitor-dynamicmonitoring
+docker push californibrs/monitor-dynamicmonitoring
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

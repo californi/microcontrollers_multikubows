@@ -1,0 +1,8 @@
+httpx
+fastapi
+uvicorn
+pydantic 
+asyncio
+kubernetes
+prometheus-client==0.8.0
+starlette-exporter==0.5.0

@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t kubeznn-fidelity .
+docker tag kubeznn-fidelity californibrs/kubeznn-fidelity
+docker push californibrs/kubeznn-fidelity
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

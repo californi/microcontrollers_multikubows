@@ -1,0 +1,7 @@
+# Building and deploying in docker hub
+docker build -t monitor-proactivemonitoring .
+docker tag monitor-proactivemonitoring californibrs/monitor-proactivemonitoring
+docker push californibrs/monitor-proactivemonitoring
+
+## Enabling the ingress to use DNS - Minikube
+minikube addons enable ingress

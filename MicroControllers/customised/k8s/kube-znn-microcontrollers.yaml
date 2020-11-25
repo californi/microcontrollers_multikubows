@@ -1,0 +1,197 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fidelity
+spec:
+  selector:
+    matchLabels:
+      app: fidelity
+  template:
+    metadata:
+      labels:
+        app: fidelity
+    spec:
+      containers:
+      - name: fidelity
+        image: californibrs/kubeznn-fidelity
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fidelity
+spec:
+  type: LoadBalancer
+  selector:
+    app: fidelity
+  ports:
+  - port: 5001 # port from application
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scalability
+spec:
+  selector:
+    matchLabels:
+      app: scalability
+  template:
+    metadata:
+      labels:
+        app: scalability
+    spec:
+      containers:
+      - name: scalability
+        image: californibrs/kubeznn-scalability
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+            
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: scalability
+spec:
+  type: LoadBalancer
+  selector:
+    app: scalability
+  ports:
+  - port: 5002 # port from application
+
+
+
+---
+
+
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kube-znn-microcontrollers-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+
+      #Endpoints
+      - path: /decreaseFidelity
+        backend:
+          serviceName: fidelity
+          servicePort: 5001
+      - path: /increaseFidelity
+        backend:
+          serviceName: fidelity
+          servicePort: 5001
+
+      #Endpoints
+      - path: /decreaseScalability
+        backend:
+          serviceName: scalability
+          servicePort: 5002
+      - path: /increaseScalability
+        backend:
+          serviceName: scalability
+          servicePort: 5002
+
+
+
+#---
+  
+#kind: ClusterRole
+#apiVersion: rbac.authorization.k8s.io/v1
+#metadata:
+#  name: pods-list
+#rules:
+#- apiGroups: [""]
+#  resources: ["pods"]
+#  verbs: ["list"]
+#---
+#kind: ClusterRoleBinding
+#apiVersion: rbac.authorization.k8s.io/v1
+#metadata:
+#  name: pods-list
+#subjects:
+#- kind: ServiceAccount
+#  name: default
+#  namespace: default
+#roleRef:
+#  kind: ClusterRole
+#  name: pods-list
+#  apiGroup: rbac.authorization.k8s.io
+
+
+#---
+#apiVersion: rbac.authorization.k8s.io/v1beta1
+#kind: ClusterRole
+#metadata:
+#  name: kubow-user
+#rules:
+#- apiGroups: ["apps"]
+#  resources:
+#  - deployments
+#  - pods
+#  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+#---
+#apiVersion: v1
+#kind: ServiceAccount
+#metadata:
+#  name: kubow-user
+#  namespace: default
+#---
+#apiVersion: rbac.authorization.k8s.io/v1beta1
+#kind: ClusterRoleBinding
+#metadata:
+#  name: kubow-user
+#roleRef:
+#  apiGroup: rbac.authorization.k8s.io
+#  kind: ClusterRole
+#  name: kubow-user
+#subjects:
+#- kind: ServiceAccount
+#  name: kubow-user
+#  namespace: default  
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: deployments-and-deployements-scale
+rules:
+- apiGroups: ["extensions", "apps"]
+  resources:
+  - deployments
+  - deployments/scale
+  - pods
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: deployments-and-deployements-scale-rb
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
+roleRef:
+  kind: Role
+  name: deployments-and-deployements-scale
+  apiGroup: ""
