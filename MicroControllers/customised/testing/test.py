@@ -1,4 +1,4 @@
-from kubernetes import client, config
+from kubernetes import client, config, watch
    
 def create_deployment_object(deployment_name, deployment_image, deployment_replicas):
     # Configureate Pod template container
@@ -65,20 +65,34 @@ config.load_kube_config() # de fora cluster K8s
 #config.load_incluster_config() # de dentro do cluster K8s
 apps_v1 = client.AppsV1Api()
 
+apps_core = client.CoreV1Api()
+
 # Getting the deployment
-deployment_name = "fidelity-mc-kubow"
-deployment_image = "cmendes/kubow:yellow"
+#deployment_name = "fidelity-mc-kubow"
+#deployment_image = "cmendes/kubow:yellow"
+#current_deployment = apps_v1.read_namespaced_deployment(deployment_name, "default")
+#current_deployment.spec.replicas = current_deployment.spec.replicas + 1
+#update_deployment(apps_v1, current_deployment, deployment_name, deployment_image)
+
+
+deployment_name = "kube-znn"
+deployment_image = "cmendes/znn:600k"
 current_deployment = apps_v1.read_namespaced_deployment(deployment_name, "default")
-current_deployment.spec.replicas = current_deployment.spec.replicas + 1
-update_deployment(apps_v1, current_deployment, deployment_name, deployment_image)
+#current_deployment.spec.replicas = current_deployment.spec.replicas + 1
+#update_deployment(apps_v1, current_deployment, deployment_name, deployment_image)
 
+#apps_core.list_component_status
+#apps_core.list_event_for_all_namespaces
+#apps_core.list_event_for_all_namespaces_with_http_info
+#apps_core.list_namespace
+#apps_core.list_namespaced_event
+#apps_core.list_namespaced_limit_range
+#apps_core.list_namespaced_resource_quota
+#apps_core.list_resource_quota_for_all_namespaces
 
-deployment_name = "scalability-mc-kubow"
-deployment_image = "cmendes/kubow:yellow"
-current_deployment = apps_v1.read_namespaced_deployment(deployment_name, "default")
-current_deployment.spec.replicas = current_deployment.spec.replicas + 1
-update_deployment(apps_v1, current_deployment, deployment_name, deployment_image)
-
+#w = watch.Watch()
+#for event in w.stream(apps_core.list_namespace, timeout_seconds=5):
+#    print("Event: %s %s" % (event['type'], event['object'].metadata.name))
 
 
 

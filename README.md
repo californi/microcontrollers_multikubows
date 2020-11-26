@@ -44,3 +44,6 @@ while (1) {clear; kubectl describe deployment kube-znn; sleep 5}
 # To analyse event failures for a specific pod
 kubectl describe pod kube-znn-644ff8f5d6-59r9n
 
+# query prometheus in K8s
+
+kubectl port-forward pod/prometheus-d4499d495-rh2rt 9090:9090

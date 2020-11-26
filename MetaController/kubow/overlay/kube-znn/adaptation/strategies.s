@@ -6,10 +6,10 @@ define boolean highTraffic = M.kubeZnnS.traffic >= 1;
 define boolean lowTraffic = M.kubeZnnS.traffic < 1;
 
 strategy activateMicrocontroller [ lowTraffic || highTraffic ] {
-  t0: (true) -> scalingUpMicrocontroller() @[10000 /*ms*/] {
+  t0: (highTraffic) -> scalingUpMicrocontroller() @[10000 /*ms*/] {
     t0a: (success) -> done;
   }
-  t1: (true) -> scalingDownMicrocontroller() @[10000 /*ms*/] {
+  t1: (lowTraffic) -> scalingDownMicrocontroller() @[10000 /*ms*/] {
     t1a: (success) -> done;
   }
   t2: (default) -> TNULL;

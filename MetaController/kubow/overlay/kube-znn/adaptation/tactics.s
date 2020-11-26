@@ -11,9 +11,8 @@ tactic scalingDownMicrocontroller() {
     lowTraffic;
   }
   action {
-    M.scaleUp(M.fidelityMcKubowD, 1);
-    M.scaleUp(M.scalabilityMcKubowD, 1); 
-    M.scaleUp(M.kubeZnnD, 1);
+    M.scaleDown(M.fidelityMcKubowD, 1);
+    M.scaleDown(M.scalabilityMcKubowD, 1); 
   }
   effect @[10000]{
     lowTraffic;
@@ -28,7 +27,6 @@ tactic scalingUpMicrocontroller() {
   action {
     M.scaleUp(M.fidelityMcKubowD, 1);
     M.scaleUp(M.scalabilityMcKubowD, 1);
-    M.scaleUp(M.kubeZnnD, 1);
   }
   effect @[10000]{
     highTraffic;
