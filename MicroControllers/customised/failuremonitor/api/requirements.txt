@@ -1,0 +1,4 @@
+kubernetes
+logging
+pydantic
+httpx
