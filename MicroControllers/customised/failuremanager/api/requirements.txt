@@ -1,4 +1,7 @@
 fastapi
 uvicorn
-kubernetes
 prometheus-fastapi-instrumentator
+pydantic
+logging
+pymongo
+motor

@@ -11,7 +11,7 @@ class Message(BaseModel):
     content: str
 
 
-url_host = 'http://failuremanager:5001'
+url_host = 'http://failuremanager:5002'
 headers = {'Content-Type': 'application/json',
            'Authorization': 'Bearer {}'.format('bWljcm9jb250cm9sbGVycw==')}
 
@@ -34,9 +34,14 @@ def main():
 
             mensage = {"id": 1, "content": event['object'].message}
 
-            httpx.post(f"{url_host}/failuremanageroperation",
-                       headers=headers,
-                       json=mensage)
+            # quando terminar a API do failuremanager, retornar aqui
+            response = httpx.post(f"{url_host}/hello",
+                                  headers=headers,
+                                  json=mensage)
+
+            if response == mensage:
+                logging.info(response.content)
+                break
 
     logging.info("Finished pod stream.")
 

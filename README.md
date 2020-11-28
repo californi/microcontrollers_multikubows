@@ -24,8 +24,12 @@ kubectl apply -k .\Microcontrollers\kubow_based\scalability_microcontroller\kubo
 kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
 
 
-## customised Microcontrollers
-kubectl apply -f .\Microcontrollers\customised\k8s\kube-znn-microcontrollers.yaml
+## customised Microcontrollers - FailureManager
+# Knownledge - statefull
+kubectl apply -f .\Microcontrollers\customised\failuremanager\failureknowledge
+
+# microservices for failuremanager
+kubectl apply -f .\Microcontrollers\customised\k8s
 
 
 ## Performing testing

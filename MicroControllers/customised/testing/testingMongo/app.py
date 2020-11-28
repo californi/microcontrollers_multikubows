@@ -1,4 +1,4 @@
-from prometheus_fastapi_instrumentator import Instrumentator
+
 from logging import exception
 from fastapi import FastAPI, Depends
 from configdb import MONGODB_DB_NAME
@@ -7,23 +7,29 @@ import pymongo
 import logging
 from pydantic import BaseModel
 
-
 app = FastAPI()
-Instrumentator().instrument(app).expose(app)
 
 
-class CreateRequest(BaseModel):
+class RegisterRequest(BaseModel):
     id: int
     content: str
 
 
-@app.get("/hello")
-def hello_world(request: CreateRequest):
-    return "Hello"
+@app.on_event("startup")
+async def startup_event():
+    await connect_to_mongo()
+    client = await get_nosql_db()
+    db = client[MONGODB_DB_NAME]
+    try:
+        await db.create_collection("failures")
+        failures_collection = db.failures
+    except pymongo.errors.CollectionInvalid as e:
+        logging.info(e)
+        pass
 
 
 @app.post("/create")
-async def create_failure(request: CreateRequest, client: AsyncIOMotorClient = Depends(get_nosql_db)):
+async def create_failure(request: RegisterRequest, client: AsyncIOMotorClient = Depends(get_nosql_db)):
     try:
         db = client[MONGODB_DB_NAME]
         collection = db.failures
