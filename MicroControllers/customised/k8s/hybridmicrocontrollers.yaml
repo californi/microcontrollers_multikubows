@@ -29,7 +29,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: failuremonitor-service
+  name: failuremonitor
 spec:
   type: LoadBalancer
   selector:
@@ -67,7 +67,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: failuremanager-service
+  name: failuremanager
 spec:
   type: LoadBalancer
   selector:
@@ -126,10 +126,10 @@ spec:
       #Endpoints
       - path: /hello
         backend:
-          serviceName: failuremanager-service
+          serviceName: failuremanager
           servicePort: 5002
-      - path: /create
+      - path: /insufficientcpu
         backend:
-          serviceName: failuremanager-service
+          serviceName: failuremanager
           servicePort: 5002          
 

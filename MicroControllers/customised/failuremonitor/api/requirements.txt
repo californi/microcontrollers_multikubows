@@ -1,4 +1,3 @@
 kubernetes
-logging
 pydantic
 httpx

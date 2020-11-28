@@ -20,6 +20,16 @@ related to pods to occur within the `timeout_seconds` threshold.
 """
 
 from kubernetes import client, config, watch
+import logging
+import re
+from pydantic import BaseModel
+
+
+class Failure(BaseModel):
+    name: str
+    type: str
+    message: str
+    datetime: str
 
 
 def main():
@@ -34,15 +44,22 @@ def main():
 
     for event in w.stream(v1.list_event_for_all_namespaces):
         if event['object'].type == "Warning":
-            print("Name: %s -- Type Event: %s -- Message: %s -- Datetime: %s" % (
-                event['object'].metadata.name,
-                event['object'].type,
-                event['object'].message,            
-                event['object'].metadata.creation_timestamp
-        ))
-        #count -= 1
-        #if not count:
-        #    w.stop()
+            failure = {"name": event['object'].metadata.name,
+                       "type": event['object'].type,
+                       "message": event['object'].message,
+                       "datetime": event['object'].metadata.creation_timestamp}
+
+            resultNamePod = re.search(
+                'kube-znn', str(failure["name"]), re.IGNORECASE)
+            resultMessageCPU = re.search(
+                'Insufficient cpu', str(failure["message"]), re.IGNORECASE)
+
+            if resultNamePod and resultMessageCPU:
+                print("falha encontrada")
+                logging.warning(failure)
+            else:
+                print("falha não encontrada")
+
     print("Finished pod stream.")
 
 

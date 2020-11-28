@@ -2,14 +2,7 @@ from kubernetes import client, config, watch
 import logging
 from pydantic import BaseModel
 import httpx
-
-# melhorar essa mensagem
-
-
-class Message(BaseModel):
-    id: int
-    content: str
-
+import re
 
 url_host = 'http://failuremanager:5002'
 headers = {'Content-Type': 'application/json',
@@ -25,23 +18,22 @@ def main():
     for event in w.stream(v1.list_event_for_all_namespaces):
         if event['object'].type == "Warning":
 
-            logging.warning(("Name: %s -- Type Event: %s -- Message: %s -- Datetime: %s" % (
-                event['object'].metadata.name,
-                event['object'].type,
-                event['object'].message,
-                event['object'].metadata.creation_timestamp
-            )))
+            failure = {"name": event['object'].metadata.name,
+                       "type": event['object'].type,
+                       "message": event['object'].message,
+                       "dateevent": str(event['object'].metadata.creation_timestamp)}
 
-            mensage = {"id": 1, "content": event['object'].message}
+            resultNamePod = re.search(
+                'kube-znn', str(failure["name"]), re.IGNORECASE)
+            resultMessageCPU = re.search(
+                'Insufficient cpu', str(failure["message"]), re.IGNORECASE)
 
-            # quando terminar a API do failuremanager, retornar aqui
-            response = httpx.post(f"{url_host}/hello",
-                                  headers=headers,
-                                  json=mensage)
-
-            if response == mensage:
-                logging.info(response.content)
-                break
+            if resultNamePod and resultMessageCPU:
+                print("falha encontrada")
+                logging.warning(failure)
+                response = httpx.post(f"{url_host}/insufficientcpu",
+                                      headers=headers,
+                                      json=failure)
 
     logging.info("Finished pod stream.")
 

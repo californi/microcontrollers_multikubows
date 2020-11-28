@@ -25,8 +25,7 @@ kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
 
 
 ## customised Microcontrollers - FailureManager
-# Knownledge - statefull
-kubectl apply -f .\Microcontrollers\customised\failuremanager\failureknowledge
+
 
 # microservices for failuremanager
 kubectl apply -f .\Microcontrollers\customised\k8s
