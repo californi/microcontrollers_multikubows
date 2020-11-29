@@ -12,6 +12,7 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     Component fidelityMcKubowD : DeploymentT = new DeploymentT extended with {
         Port apiPort  = { }
         Port fidelityKubeznnPort  = { }
+        Property maxReplicas = 1;
     
         Property namespace = "default";
         Property name = "fidelity-mc-kubow";
@@ -23,6 +24,7 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     Component scalabilityMcKubowD : DeploymentT = new DeploymentT extended with {
         Port apiPort  = { }
         Port scalabilityKubeznnPort  = { }
+        Property maxReplicas = 1;
     
         Property namespace = "default";
         Property name = "scalability-mc-kubow";
