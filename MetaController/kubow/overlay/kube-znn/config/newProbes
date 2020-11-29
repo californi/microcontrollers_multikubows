@@ -1,1 +1,0 @@
-cpu_limit{container_name="kube-znn",namespace="default",pod_name="kube-znn-644ff8f5d6-7cbxl",status="Running "}

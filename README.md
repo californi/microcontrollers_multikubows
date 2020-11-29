@@ -13,7 +13,10 @@ kubectl apply -k .\tools\monitoring\
 ## target system - kube-znn
 kubectl apply -k .\TargetSystem\kube-znn\overlay\default\
 
-## nginxc-ingress
+# microservices for failuremanager
+kubectl apply -f .\Microcontrollers\customised\k8s
+
+## nginxc-ingress (nginx tem que ver deopis do target system e do failuremanager)
 kubectl apply -f .\tools\nginxc-ingress\
 
 ## Microcontrollers based on kubow
@@ -24,19 +27,12 @@ kubectl apply -k .\Microcontrollers\kubow_based\scalability_microcontroller\kubo
 kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
 
 
-## customised Microcontrollers - FailureManager
-
-
-# microservices for failuremanager
-kubectl apply -f .\Microcontrollers\customised\k8s
-
-
 ## Performing testing
 kubectl apply -k .\Testing\k6\
 
 ## Generating logs
 
-kubectl logs pod/metacontroller-kubow-84c9b6ff8d-4nhnb >> arquivo23112020.log
+kubectl logs pod/metacontroller-kubow-bd8d4db79-zjlhg >> arquivo29112020.log
 
 ## Updating PowerShell terminal
 
@@ -50,3 +46,7 @@ kubectl describe pod kube-znn-644ff8f5d6-59r9n
 # query prometheus in K8s
 
 kubectl port-forward pod/prometheus-d4499d495-rh2rt 9090:9090
+
+# Grafana
+
+ kubectl port-forward pod/grafana-b659fcdd9-8r9h5 3000:3000

@@ -28,6 +28,28 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
         Property name = "scalability-mc-kubow";
     }
 
+    Component failureManagerS : ServiceT = new ServiceT extended with {
+      Port apiPort  = { }
+      Property name = "failuremanager";
+
+      Property cpufailure = 0.0;
+    }
+
+    Component failureManagerD : DeploymentT = new DeploymentT extended with {
+      Port apiPort  = { }
+
+      Property namespace = "default";
+      Property name = "failuremanager";
+    }
+
+    Connector failureManagerServiceConnector  = new LabelSelectorConnectorT extended with {
+      Property selectors = <[name : string = "app";value : string = "failuremanager";]>;
+    }
+
+    Attachment failureManagerS.apiPort to failureManagerServiceConnector.callee;
+    Attachment failureManagerD.apiPort to failureManagerServiceConnector.caller;
+  
+
 
   /*
     Target System architecture - KubeZnn
@@ -73,7 +95,8 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
   Connector dbServiceConnector  = new ServiceConnectorT extended with {
     Property selectors = <[name : string = "app";value : string = "kube-znn-db";]>;
   }
-  
+
+
   
 
   Attachment kubeZnnDbD.sqlPort to dbServiceConnector.selectee;

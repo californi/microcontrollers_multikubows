@@ -116,3 +116,23 @@ gauge-instances:
       targetIP: "127.0.0.1"
     configValues:
       targetProbeType: deployments.default.scalability.probe@*      
+
+  KubeFailureManagerInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": failureManagerD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.failuremanager.probe@*     
+
+  CpufailureGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setServiceProperty()": "failureManagerS.setServiceProperty($<jsonValue>,<cpufailure>)"
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: default-failuremanager-cpufailure@*      

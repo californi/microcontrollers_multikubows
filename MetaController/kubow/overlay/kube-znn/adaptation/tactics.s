@@ -1,34 +1,29 @@
 module kubow.strategies;
 import model "KubeZnnSystem:Acme" { KubeZnnSystem as M, KubernetesFam as K };
 
-define boolean highTraffic = M.kubeZnnS.traffic >= 1;
-define boolean lowTraffic = M.kubeZnnS.traffic < 1;
+define boolean hasCpufailure = M.failureManagerS.cpufailure >= 1;
+define boolean hasNoCpufailure = M.failureManagerS.cpufailure < 1;
 
-
-/* acho que o problema tá na execucao continua dessa tatica */
 tactic scalingDownMicrocontroller() {
   condition {
-    lowTraffic;
+    hasNoCpufailure;
   }
   action {
-    M.scaleDown(M.fidelityMcKubowD, 1);
-    M.scaleDown(M.scalabilityMcKubowD, 1); 
+    M.scaleUp(M.kubeZnnD, 1);
   }
   effect @[10000]{
-    lowTraffic;
+    hasNoCpufailure;
   }
 }
 
-/*Quando esta zero, nao da scaleUp*/
 tactic scalingUpMicrocontroller() {
   condition {
-    highTraffic;
+    hasCpufailure;
   }
   action {
-    M.scaleUp(M.fidelityMcKubowD, 1);
-    M.scaleUp(M.scalabilityMcKubowD, 1);
+    M.scaleDown(M.kubeZnnD, 1);
   }
   effect @[10000]{
-    highTraffic;
+    hasCpufailure;
   }
 }
