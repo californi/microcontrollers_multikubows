@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fidelitya-mc-kubow
+spec:
+  replicas: 1 # enabled by default
+  selector:
+    matchLabels:
+      app: fidelitya-mc-kubow
+  template:
+    metadata:
+      labels:
+        app: fidelitya-mc-kubow
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: localhost.k8s.io/layer
+                    operator: In
+                    values:
+                      - fidelitya-mc-kubow
+      serviceAccountName: fidelitya-mc-kubow-user
+      volumes:
+        - name: fidelitya-mc-kubow-config
+          configMap:
+            name: fidelitya-mc-kubow-config
+        - name: fidelitya-mc-kubow-model
+          configMap:
+            name: fidelitya-mc-kubow-model
+        - name: fidelitya-mc-kubow-adaptation
+          configMap:
+            name: fidelitya-mc-kubow-adaptation
+      containers:
+        - image: cmendes/kubow:yellow-2
+          name: kubow
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          env:
+            - name: USER_DIR
+              value: "/usr/share/kubow"
+            - name: TARGET
+              value: "system"
+            - name: TARGET_PATH
+              value: "targets"
+          volumeMounts:
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/targets/system/rainbow.properties
+              subPath: rainbow.properties
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/targets/system/probes.yaml
+              subPath: probes.yaml
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/targets/system/gauges.yaml
+              subPath: gauges.yaml
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/targets/system/effectors.yaml
+              subPath: effectors.yaml
+            - name: fidelitya-mc-kubow-adaptation
+              mountPath: /usr/share/kubow/targets/system/adaptation/tactics.s
+              subPath: tactics.s
+            - name: fidelitya-mc-kubow-adaptation
+              mountPath: /usr/share/kubow/targets/system/adaptation/strategies.s
+              subPath: strategies.s
+            - name: fidelitya-mc-kubow-adaptation
+              mountPath: /usr/share/kubow/targets/system/utilities.yaml
+              subPath: utilities.yaml
+            - name: fidelitya-mc-kubow-model
+              mountPath: /usr/share/kubow/targets/system/model/kubernetes-family.acme
+              subPath: kubernetes-family.acme
+            - name: fidelitya-mc-kubow-model
+              mountPath: /usr/share/kubow/targets/system/model/target-system.acme
+              subPath: target-system.acme
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/targets/system/op.map
+              subPath: op.map
+            - name: fidelitya-mc-kubow-config
+              mountPath: /usr/share/kubow/log4j.properties
+              subPath: log4j.properties

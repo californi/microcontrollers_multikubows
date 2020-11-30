@@ -1,0 +1,30 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: fidelityb-mc-kubow-user
+rules:
+- apiGroups: ["apps"]
+  resources:
+  - deployments
+  - pods
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fidelityb-mc-kubow-user
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: fidelityb-mc-kubow-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fidelityb-mc-kubow-user
+subjects:
+- kind: ServiceAccount
+  name: fidelityb-mc-kubow-user
+  namespace: default

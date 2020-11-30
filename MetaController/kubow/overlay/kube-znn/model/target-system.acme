@@ -5,30 +5,52 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     Metacontrollers architecture - Mechanisms
   */
     // -----------------------------------------------------
-    // Components for fidelity
+    // Components for fidelitya
     // -----------------------------------------------------
 
-    //Component fidelity Deployment
-    Component fidelityMcKubowD : DeploymentT = new DeploymentT extended with {
+    //Component fidelitya Deployment
+    Component fidelityaMcKubowD : DeploymentT = new DeploymentT extended with {
         Port apiPort  = { }
-        Port fidelityKubeznnPort  = { }
-        Property maxReplicas = 1;
+        Port fidelityaKubeznnPort  = { }
     
         Property namespace = "default";
-        Property name = "fidelity-mc-kubow";
+        Property name = "fidelitya-mc-kubow";
     }
 
     // -----------------------------------------------------
-    // Components for scalability
+    // Components for scalabilitya
     // -----------------------------------------------------
-    Component scalabilityMcKubowD : DeploymentT = new DeploymentT extended with {
+    Component scalabilityaMcKubowD : DeploymentT = new DeploymentT extended with {
         Port apiPort  = { }
-        Port scalabilityKubeznnPort  = { }
-        Property maxReplicas = 1;
+        Port scalabilityaKubeznnPort  = { }
     
         Property namespace = "default";
-        Property name = "scalability-mc-kubow";
+        Property name = "scalabilitya-mc-kubow";
     }
+
+    // -----------------------------------------------------
+    // Components for fidelityb
+    // -----------------------------------------------------
+
+    //Component fidelityb Deployment
+    Component fidelitybMcKubowD : DeploymentT = new DeploymentT extended with {
+        Port apiPort  = { }
+        Port fidelitybKubeznnPort  = { }
+    
+        Property namespace = "default";
+        Property name = "fidelityb-mc-kubow";
+    }
+
+    // -----------------------------------------------------
+    // Components for scalabilityb
+    // -----------------------------------------------------
+    Component scalabilitybMcKubowD : DeploymentT = new DeploymentT extended with {
+        Port apiPort  = { }
+        Port scalabilitybKubeznnPort  = { }
+    
+        Property namespace = "default";
+        Property name = "scalabilityb-mc-kubow";
+    }    
 
     Component failureManagerS : ServiceT = new ServiceT extended with {
       Port apiPort  = { }

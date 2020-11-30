@@ -12,7 +12,7 @@ spec:
         app: failuremanager
       annotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "5002"        
+        prometheus.io/port: "5002"     # Our application port. Prometheus will listen to it.    
     spec:
       volumes:
         - name: shared-files

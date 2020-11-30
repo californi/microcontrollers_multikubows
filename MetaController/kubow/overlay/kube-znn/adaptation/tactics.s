@@ -9,8 +9,8 @@ tactic scalingUpMicrocontroller() {
     hasCpufailure;
   }
   action {
-    M.scaleUp(M.fidelityMcKubowD, 1);
-    M.scaleUp(M.scalabilityMcKubowD, 1);
+    M.scaleUp(M.fidelitybMcKubowD, 1);
+    M.scaleUp(M.scalabilitybMcKubowD, 1);
   }
   effect @[10000]{
     hasCpufailure;
@@ -22,8 +22,8 @@ tactic scalingDownMicrocontroller() {
     hasNoCpufailure;
   }
   action {
-    M.scaleDown(M.fidelityMcKubowD, 1);
-    M.scaleDown(M.scalabilityMcKubowD, 1);
+    M.scaleDown(M.fidelitybMcKubowD, 1);
+    M.scaleDown(M.scalabilitybMcKubowD, 1);
   }
   effect @[10000]{
     hasNoCpufailure;

@@ -20,8 +20,10 @@ kubectl apply -f .\Microcontrollers\customised\k8s
 kubectl apply -f .\tools\nginxc-ingress\
 
 ## Microcontrollers based on kubow
-kubectl apply -k .\Microcontrollers\kubow_based\fidelity_microcontroller\kubow\overlay\kube-znn\
-kubectl apply -k .\Microcontrollers\kubow_based\scalability_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\fidelitya_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\fidelityb_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\scalabilitya_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kubow\overlay\kube-znn\
 
 ## MetaController - kubow - TODO:  defining the components with respect to Deployments and services
 kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
@@ -32,7 +34,7 @@ kubectl apply -k .\Testing\k6\
 
 ## Generating logs
 
-kubectl logs pod/metacontroller-kubow-75fd6497d9-fmdfh >> arquivo29112020.log
+kubectl logs pod/metacontroller-kubow-d7dbc7579-5kgrp >> arquivosMetaController30112020.log
 
 ## Updating PowerShell terminal
 

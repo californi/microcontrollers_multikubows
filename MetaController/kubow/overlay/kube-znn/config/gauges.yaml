@@ -97,25 +97,45 @@ gauge-instances:
     configValues:
       targetProbeType: deployments.default.kube-znn.probe@*
 
-  KubeFidelityInfoGauge:
+  KubeFidelityaInfoGauge:
     type: KubowGaugeT
     model: "KubeZnnSystem:Acme"
     commands:
-      "setDeploymentInfo()": fidelityMcKubowD.setDeploymentInfo($<jsonValue>)
+      "setDeploymentInfo()": fidelityaMcKubowD.setDeploymentInfo($<jsonValue>)
     setupValues:
       targetIP: "127.0.0.1"
     configValues:
-      targetProbeType: deployments.default.fidelity.probe@*
+      targetProbeType: deployments.default.fidelitya.probe@*
 
-  KubeScalabilityInfoGauge:
+  KubeScalabilityaInfoGauge:
     type: KubowGaugeT
     model: "KubeZnnSystem:Acme"
     commands:
-      "setDeploymentInfo()": scalabilityMcKubowD.setDeploymentInfo($<jsonValue>)
+      "setDeploymentInfo()": scalabilityaMcKubowD.setDeploymentInfo($<jsonValue>)
     setupValues:
       targetIP: "127.0.0.1"
     configValues:
-      targetProbeType: deployments.default.scalability.probe@*      
+      targetProbeType: deployments.default.scalabilitya.probe@*      
+
+  KubeFidelitybInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": fidelitybMcKubowD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.fidelityb.probe@*
+
+  KubeScalabilitybInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": scalabilitybMcKubowD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.scalabilityb.probe@*            
 
   KubeFailureManagerInfoGauge:
     type: KubowGaugeT

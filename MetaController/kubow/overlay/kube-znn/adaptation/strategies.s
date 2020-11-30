@@ -2,8 +2,6 @@ module kubow.strategies;
 import model "KubeZnnSystem:Acme" { KubeZnnSystem as M, KubernetesFam as K };
 import lib "tactics.s";
 
-//define boolean canAddReplicaFidelity = M.fidelityMcKubowD.maxReplicas > M.fidelityMcKubowD.desiredReplicas;
-//define boolean canAddReplicaScalability = M.scalabilityMcKubowD.maxReplicas > M.scalabilityMcKubowD.desiredReplicas;
 
 define boolean hasCpufailure = M.failureManagerS.cpufailure > 0;
 define boolean hasNoCpufailure = M.failureManagerS.cpufailure == 0.0;
