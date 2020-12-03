@@ -1,0 +1,31 @@
+# Delete
+kubectl delete -k .\tools\monitoring\
+kubectl delete -k .\TargetSystem\kube-znn\overlay\default\
+kubectl delete -f .\Microcontrollers\customised\k8s
+kubectl delete -f .\tools\nginxc-ingress\
+kubectl delete -k .\Microcontrollers\kubow_based\fidelitya_microcontroller\kubow\overlay\kube-znn\
+kubectl delete -k .\Microcontrollers\kubow_based\fidelityb_microcontroller\kubow\overlay\kube-znn\
+kubectl delete -k .\Microcontrollers\kubow_based\scalabilitya_microcontroller\kubow\overlay\kube-znn\
+kubectl delete -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kubow\overlay\kube-znn\
+
+kubectl delete -k .\MetaController\kubow\overlay\kube-znn\
+
+kubectl delete -f .\MetaController\customised\k8s
+
+
+# Create
+kubectl apply -k .\tools\monitoring\
+kubectl apply -k .\TargetSystem\kube-znn\overlay\default\
+kubectl apply -f .\Microcontrollers\customised\k8s
+kubectl apply -f .\tools\nginxc-ingress\
+kubectl apply -k .\Microcontrollers\kubow_based\fidelitya_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\fidelityb_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\scalabilitya_microcontroller\kubow\overlay\kube-znn\
+kubectl apply -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kubow\overlay\kube-znn\
+
+
+
+kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
+
+kubectl apply -f .\MetaController\customised\k8s
+

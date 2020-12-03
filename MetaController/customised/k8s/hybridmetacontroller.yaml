@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metacontroller
+spec:
+  selector:
+    matchLabels:
+      app: metacontroller
+  template:
+    metadata:
+      labels:
+        app: metacontroller
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: metacontroller
+        image: californibrs/metacontroller
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: metacontroller
+spec:
+  type: LoadBalancer
+  selector:
+    app: metacontroller
+  ports:
+  - port: 5010 # port from application
+
+
+---  
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: kubow-user  # This user must be in the deployments that use K8s API
+rules:
+- apiGroups: ["apps", ""]
+  resources:
+  - deployments
+  - pods
+  - events
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubow-user
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kubow-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubow-user
+subjects:
+- kind: ServiceAccount
+  name: kubow-user
+  namespace: default  

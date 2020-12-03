@@ -15,6 +15,9 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     
         Property namespace = "default";
         Property name = "fidelitya-mc-kubow";
+
+        Property minReplicas = 0;
+        Property maxReplicas = 1;
     }
 
     // -----------------------------------------------------
@@ -26,6 +29,9 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     
         Property namespace = "default";
         Property name = "scalabilitya-mc-kubow";
+
+        Property minReplicas = 0;
+        Property maxReplicas = 1;
     }
 
     // -----------------------------------------------------
@@ -39,6 +45,9 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     
         Property namespace = "default";
         Property name = "fidelityb-mc-kubow";
+
+        Property minReplicas = 0;
+        Property maxReplicas = 1;
     }
 
     // -----------------------------------------------------
@@ -50,6 +59,9 @@ System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
     
         Property namespace = "default";
         Property name = "scalabilityb-mc-kubow";
+
+        Property minReplicas = 0;
+        Property maxReplicas = 1;
     }    
 
     Component failureManagerS : ServiceT = new ServiceT extended with {

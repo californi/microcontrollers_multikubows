@@ -15,10 +15,10 @@ Family KubernetesFam = {
   Component Type DeploymentT = {
     Property name : string;
     Property namespace : string;
-    Property desiredReplicas : int << default : int = 1; >>;
+    Property desiredReplicas : int << default : int = 0; >>;
     Property currentReplicas : int << default : int = 0; >>;
     Property availableReplicas : int;
-    Property minReplicas : int << default : int = 1; >>;
+    Property minReplicas : int << default : int = 0; >>;
     Property maxReplicas : int << default : int = 100000; >> ;
     Property containers : Sequence<ContainerT>;
     Property hasAlternativeImages : boolean << default : boolean = false; >> ;
