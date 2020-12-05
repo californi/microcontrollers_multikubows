@@ -11,7 +11,7 @@ strategy activateNoFailureRate [ NoFailureRate ] {
   define boolean canAddscalabilitya = M.scalabilityaMcKubowD.desiredReplicas < 1;
   define boolean canAddFidelitya = M.fidelityaMcKubowD.desiredReplicas < 1;  
 
-  t0: (canAddscalabilitya && canAddFidelitya) -> addScalabilityaFidelitya()  @[5000 /*ms*/] {
+  t0: (canAddscalabilitya && canAddFidelitya) -> addScalabilityaFidelitya() {
     t0a: (success) -> done;
   }  
   t1: (default) -> TNULL;
@@ -22,7 +22,7 @@ strategy activateHighFailureRate [ HighFailureRate ] {
   define boolean canAddscalabilityb = M.scalabilitybMcKubowD.desiredReplicas < 1;
   define boolean canAddFidelityb = M.fidelitybMcKubowD.desiredReplicas < 1;  
 
-  t0: (canAddscalabilityb && canAddFidelityb) -> addScalabilitybFidelityb()  @[5000 /*ms*/] {
+  t0: (canAddscalabilityb && canAddFidelityb) -> addScalabilitybFidelityb() {
     t0a: (success) -> done;
   }  
   t1: (default) -> TNULL;

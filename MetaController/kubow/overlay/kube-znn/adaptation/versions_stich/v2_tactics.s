@@ -39,7 +39,7 @@ tactic addScalabilityaFidelitya() {
       M.scaleUp(M.fidelityaMcKubowD, 1);
     }
   }
-  effect @[1250] {
+  effect {
     (!canRemoveScalabilityb && !canRemoveFidelityb && !canAddScalabilitya && !canAddFidelitya);
   }
 }
@@ -63,7 +63,7 @@ tactic addScalabilitybFidelityb() {
       M.scaleUp(M.fidelitybMcKubowD, 1);
     }
   }
-  effect @[1250] {
+  effect {
     (!canRemoveScalabilitya && !canRemoveFidelitya && !canAddScalabilityb && !canAddFidelityb);
   }
 }

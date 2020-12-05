@@ -10,8 +10,6 @@ kubectl delete -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\ku
 
 kubectl delete -k .\MetaController\kubow\overlay\kube-znn\
 
-kubectl delete -f .\MetaController\customised\k8s
-
 
 # Create
 kubectl apply -k .\tools\monitoring\
@@ -26,6 +24,3 @@ kubectl apply -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kub
 
 
 kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
-
-kubectl apply -f .\MetaController\customised\k8s
-

@@ -1,74 +1,5 @@
-
 module kubow.strategies;
 import model "KubeZnnSystem:Acme" { KubeZnnSystem as M, KubernetesFam as K };
-
-define boolean NoFailureRate = M.failureManagerS.cpufailure == 0.0;
-define boolean LowFailureRate = M.failureManagerS.cpufailure > 0.0 && M.failureManagerS.cpufailure <= 0.5;
-define boolean HighFailureRate = M.failureManagerS.cpufailure > 0.5;
-
-define boolean canAddScalabilityaFidelitya = M.scalabilityaMcKubowD.maxReplicas > M.scalabilityaMcKubowD.desiredReplicas && M.fidelityaMcKubowD.maxReplicas > M.fidelityaMcKubowD.desiredReplicas;
-
-define boolean canAddScalabilityb = M.scalabilitybMcKubowD.desiredReplicas < 1;
-define boolean canAddFidelityb = M.fidelitybMcKubowD.desiredReplicas < 1;
-define boolean canRemoveScalabilityb = M.scalabilitybMcKubowD.desiredReplicas > 0;
-define boolean canRemoveFidelityb = M.fidelitybMcKubowD.desiredReplicas > 0;
-
-define boolean canAddScalabilitybFidelityb = M.scalabilitybMcKubowD.maxReplicas > M.scalabilitybMcKubowD.desiredReplicas && M.fidelitybMcKubowD.maxReplicas > M.fidelitybMcKubowD.desiredReplicas;
-
-define boolean canAddScalabilitya = M.scalabilityaMcKubowD.desiredReplicas < 1;
-define boolean canAddFidelitya = M.fidelityaMcKubowD.desiredReplicas < 1;
-define boolean canRemoveScalabilitya = M.scalabilityaMcKubowD.desiredReplicas > 0;
-define boolean canRemoveFidelitya = M.fidelityaMcKubowD.desiredReplicas > 0;
-
-//Inserção está testada / funcionando....
-tactic addScalabilityaFidelitya() {
-  condition {
-    (NoFailureRate);
-  }
-  action {
-    if(canRemoveScalabilityb){
-      M.scaleDown(M.scalabilitybMcKubowD, 1);
-    }
-    if(canRemoveFidelityb){
-      M.scaleDown(M.fidelitybMcKubowD, 1);
-    }
-    if(canAddScalabilitya){
-      M.scaleUp(M.scalabilityaMcKubowD, 1);
-    }
-    if(canAddFidelitya){
-      M.scaleUp(M.fidelityaMcKubowD, 1);
-    }
-  }
-  effect @[1250] {
-    (!canRemoveScalabilityb && !canRemoveFidelityb && !canAddScalabilitya && !canAddFidelitya);
-  }
-}
-
-
-tactic addScalabilitybFidelityb() {
-  condition {
-    (HighFailureRate);
-  }
-  action {
-    if(canRemoveScalabilitya){
-      M.scaleDown(M.scalabilityaMcKubowD, 1);
-    }
-    if(canRemoveFidelitya){
-      M.scaleDown(M.fidelityaMcKubowD, 1);
-    }
-    if(canAddScalabilityb){
-      M.scaleUp(M.scalabilitybMcKubowD, 1);
-    }
-    if(canAddFidelityb){
-      M.scaleUp(M.fidelitybMcKubowD, 1);
-    }
-  }
-  effect @[1250] {
-    (!canRemoveScalabilitya && !canRemoveFidelitya && !canAddScalabilityb && !canAddFidelityb);
-  }
-}
-
-
 
 tactic addScalabilitya() {
   int futureReplicas = M.scalabilityaMcKubowD.desiredReplicas + 1;
@@ -78,7 +9,7 @@ tactic addScalabilitya() {
   action {
     M.scaleUp(M.scalabilityaMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.scalabilityaMcKubowD.desiredReplicas;
   }
 }
@@ -91,7 +22,7 @@ tactic removeScalabilitya() {
   action {
     M.scaleDown(M.scalabilityaMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.scalabilityaMcKubowD.desiredReplicas;
   }
 }
@@ -104,7 +35,7 @@ tactic addScalabilityb() {
   action {
     M.scaleUp(M.scalabilitybMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.scalabilitybMcKubowD.desiredReplicas;
   }
 }
@@ -117,11 +48,10 @@ tactic removeScalabilityb() {
   action {
     M.scaleDown(M.scalabilitybMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.scalabilitybMcKubowD.desiredReplicas;
   }
 }
-
 
 tactic addFidelitya() {
   int futureReplicas = M.fidelityaMcKubowD.desiredReplicas + 1;
@@ -131,7 +61,7 @@ tactic addFidelitya() {
   action {
     M.scaleUp(M.fidelityaMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.fidelityaMcKubowD.desiredReplicas;
   }
 }
@@ -144,7 +74,7 @@ tactic removeFidelitya() {
   action {
     M.scaleDown(M.fidelityaMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.fidelityaMcKubowD.desiredReplicas;
   }
 }
@@ -157,7 +87,7 @@ tactic addFidelityb() {
   action {
     M.scaleUp(M.fidelitybMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.fidelitybMcKubowD.desiredReplicas;
   }
 }
@@ -170,7 +100,7 @@ tactic removeFidelityb() {
   action {
     M.scaleDown(M.fidelitybMcKubowD, 1);
   }
-  effect {
+  effect @[2500] {
     futureReplicas' == M.fidelitybMcKubowD.desiredReplicas;
   }
 }

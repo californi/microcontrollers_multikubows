@@ -5,7 +5,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -19,7 +19,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -32,7 +32,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -45,7 +45,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -60,7 +60,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -73,7 +73,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "kube-znn"
@@ -86,7 +86,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 5000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "kube-znn"
@@ -97,7 +97,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 2000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "fidelitya-mc-kubow"
@@ -108,7 +108,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 2000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "scalabilitya-mc-kubow" 
@@ -119,7 +119,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 2000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "fidelityb-mc-kubow"
@@ -130,7 +130,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 2000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "scalabilityb-mc-kubow"       
@@ -141,7 +141,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.DeploymentInfoProbe
-      period: 2000
+      period: 1250
       args.length: 2
       args.0: "default"
       args.1: "failuremanager"            
@@ -152,7 +152,7 @@ probes:
     type: java
     javaInfo:
       class: br.unifor.kubow.probes.PrometheusProbe
-      period: 5000
+      period: 1250
       args.length: 4
       args.0: "default"
       args.1: "failuremanager"
