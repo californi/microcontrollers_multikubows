@@ -16,7 +16,7 @@ define boolean canAddFidelitya = M.fidelityaMcKubowD.desiredReplicas < 1;
 define boolean canRemoveScalabilitya = M.scalabilityaMcKubowD.desiredReplicas > 0;
 define boolean canRemoveFidelitya = M.fidelityaMcKubowD.desiredReplicas > 0;
 
-tactic activateHighScalabilityHighQuality(){
+tatic activateHighScalabilityHighQuality(){
   condition{
     canAddScalabilitya && canAddFidelitya;
   }
@@ -35,11 +35,11 @@ tactic activateHighScalabilityHighQuality(){
     }
   }
   effect @[1500]{
-    !(canAddScalabilitya && canAddFidelitya);
+    !canAddScalabilitya && canAddFidelitya;
   }
 }
 
-tactic activateLowScalabilityHighQuality(){
+tatic activateLowScalabilityHighQuality(){
   condition {
     canAddScalabilityb && canAddFidelitya;
   }
@@ -58,11 +58,11 @@ tactic activateLowScalabilityHighQuality(){
     }
   }
   effect @[1500] {
-    !(canAddScalabilityb && canAddFidelitya);
+    !canAddScalabilityb && canAddFidelitya;
   }
 }
 
-tactic activateLowScalabilityLowQuality(){
+tatic activateLowScalabilityLowQuality(){
   condition {
     canAddScalabilityb && canAddFidelityb;
   }
@@ -81,6 +81,6 @@ tactic activateLowScalabilityLowQuality(){
     }
   }
   effect @[1500] {
-    !(canAddScalabilityb && canAddFidelityb);
+    !canAddScalabilityb && canAddFidelityb;
   }
 }
