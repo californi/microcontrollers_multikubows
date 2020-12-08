@@ -23,7 +23,5 @@ strategy dealingWithCPUFailure [ NoFailureRate || LowFailureRate || HighFailureR
     t5: (success) -> activatingfidelitya() @[2500 /*ms*/] {
       t5a: (success) -> done;
       t5b: (default) -> TNULL;
-    } 
-  }
-  t6: (default) -> TNULL;    
+  }       
 }
