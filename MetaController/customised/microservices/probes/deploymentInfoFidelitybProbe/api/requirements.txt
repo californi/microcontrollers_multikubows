@@ -1,0 +1,6 @@
+datetime
+requests
+fastapi
+uvicorn
+httpx
+kubernetes

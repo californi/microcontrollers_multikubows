@@ -243,6 +243,170 @@ spec:
 ---
 
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfoscalabilitybprobe
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfoscalabilitybprobe
+  template:
+    metadata:
+      labels:
+        app: deploymentinfoscalabilitybprobe
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfoscalabilitybprobe
+        image: californibrs/deploymentinfoscalabilitybprobe
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfoscalabilitybprobe
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfoscalabilitybprobe
+  ports:
+  - port: 5043 # port from application
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfoscalabilitybgauge
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfoscalabilitybgauge
+  template:
+    metadata:
+      labels:
+        app: deploymentinfoscalabilitybgauge
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfoscalabilitybgauge
+        image: californibrs/deploymentinfoscalabilitybgauge
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfoscalabilitybgauge
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfoscalabilitybgauge
+  ports:
+  - port: 5052 # port from application
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfofidelitybprobe
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfofidelitybprobe
+  template:
+    metadata:
+      labels:
+        app: deploymentinfofidelitybprobe
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfofidelitybprobe
+        image: californibrs/deploymentinfofidelitybprobe
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfofidelitybprobe
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfofidelitybprobe
+  ports:
+  - port: 5042 # port from application
+
+
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfofidelitybgauge
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfofidelitybgauge
+  template:
+    metadata:
+      labels:
+        app: deploymentinfofidelitybgauge
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfofidelitybgauge
+        image: californibrs/deploymentinfofidelitybgauge
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfofidelitybgauge
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfofidelitybgauge
+  ports:
+  - port: 5053 # port from application
+---
+
+
 
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress

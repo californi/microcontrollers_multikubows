@@ -1,0 +1,4 @@
+# Building and deploying in docker hub
+docker build -t deploymentinfoscalabilitybprobe .
+docker tag deploymentinfoscalabilitybprobe californibrs/deploymentinfoscalabilitybprobe
+docker push californibrs/deploymentinfoscalabilitybprobe
