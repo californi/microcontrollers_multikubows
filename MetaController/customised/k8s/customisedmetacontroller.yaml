@@ -36,7 +36,7 @@ spec:
     app: cpufailureprobe
   ports:
   - port: 5020 # port from application
-
+---
 
 apiVersion: apps/v1
 kind: Deployment
@@ -77,6 +77,87 @@ spec:
   ports:
   - port: 5030 # port from application
 
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfoscalabilityaprobe
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfoscalabilityaprobe
+  template:
+    metadata:
+      labels:
+        app: deploymentinfoscalabilityaprobe
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfoscalabilityaprobe
+        image: californibrs/deploymentinfoscalabilityaprobe
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfoscalabilityaprobe
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfoscalabilityaprobe
+  ports:
+  - port: 5040 # port from application
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfoscalabilityagauge
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfoscalabilityagauge
+  template:
+    metadata:
+      labels:
+        app: deploymentinfoscalabilityagauge
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfoscalabilityagauge
+        image: californibrs/deploymentinfoscalabilityagauge
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfoscalabilityagauge
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfoscalabilityagauge
+  ports:
+  - port: 5050 # port from application
+---
 
 
 apiVersion: networking.k8s.io/v1beta1
@@ -99,5 +180,14 @@ spec:
       - path: /setcpufailuregauge
         backend:
           serviceName: cpufailuregauge
-          servicePort: 5030          
+          servicePort: 5030         
+
+      - path: /getdeploymentinfoscalabilityagauge    
+        backend:
+          serviceName: deploymentinfoscalabilityagauge
+          servicePort: 5050
+      - path: /setdeploymentinfoscalabilityagauge
+        backend:
+          serviceName: deploymentinfoscalabilityagauge
+          servicePort: 5050             
 

@@ -1,0 +1,4 @@
+# Building and deploying in docker hub
+docker build -t deploymentinfoscalabilityagauge .
+docker tag deploymentinfoscalabilityagauge californibrs/deploymentinfoscalabilityagauge
+docker push californibrs/deploymentinfoscalabilityagauge
