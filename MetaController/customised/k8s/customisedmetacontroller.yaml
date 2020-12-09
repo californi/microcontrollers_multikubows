@@ -404,19 +404,59 @@ spec:
     app: deploymentinfofidelitybgauge
   ports:
   - port: 5053 # port from application
+
 ---
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: activatedeploymenteffector
+spec:
+  selector:
+    matchLabels:
+      app: activatedeploymenteffector
+  template:
+    metadata:
+      labels:
+        app: activatedeploymenteffector
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: activatedeploymenteffector
+        image: californibrs/activatedeploymenteffector
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: activatedeploymenteffector
+spec:
+  type: LoadBalancer
+  selector:
+    app: activatedeploymenteffector
+  ports:
+  - port: 5060 # port from application
+---
 
 
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: gauges-ingress
+  name: metacontroller-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: "nginx-ingress.gauges.svc"
+  - host: "nginx-ingress.metacontroller.svc"
     http:
       paths:
 
@@ -449,3 +489,7 @@ spec:
           serviceName: deploymentinfofidelityagauge
           servicePort: 5051             
 
+      - path: /setactivatedeploymenteffector
+        backend:
+          serviceName: activatedeploymenteffector
+          servicePort: 5060       
