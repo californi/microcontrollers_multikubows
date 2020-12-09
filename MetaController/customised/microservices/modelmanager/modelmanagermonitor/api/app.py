@@ -2,7 +2,7 @@ import logging
 import httpx
 import datetime
 import time
-from pydantic import BaseModel
+import json
 
 url_host_failuregauge = 'http://cpufailuregauge:5030'
 url_host_deploymentinfoscalabilityagauge = 'http://deploymentinfoscalabilityagauge:5050'
@@ -16,15 +16,6 @@ headers = {'Content-Type': 'application/json',
            'Authorization': 'Bearer {}'.format('bWljcm9jb250cm9sbGVycw==')}
 
 
-class DataKnowledge(BaseModel):
-    CpuFailureRate: str
-    scalabilityaDesiredReplicas: str
-    fidelityaDesiredReplicas: str
-    scalabilitybDesiredReplicas: str
-    fidelitybDesiredReplicas: str
-    datelastevent: str
-
-
 def main():
 
     while True:
@@ -34,54 +25,52 @@ def main():
         try:
             # /getcpufailuregauge
             # url_host_failuregauge
-            cpuFailureRate = httpx.post(f"{url_host_failuregauge}/getcpufailuregauge",
-                                        headers=headers)
+            cpuFailureRate = httpx.get(f"{url_host_failuregauge}/getcpufailuregauge",
+                                       headers=headers)
 
-            logging.warning("CpuFailureRate: " + str(cpuFailureRate))
+            logging.warning("CpuFailureRate: " + str(cpuFailureRate.json()))
 
             # /getdeploymentinfoscalabilityagauge
             # url_host_deploymentinfoscalabilityagauge
-            scalabilityaDesiredReplicas = httpx.post(f"{url_host_deploymentinfoscalabilityagauge}/getdeploymentinfoscalabilityagauge",
-                                                     headers=headers)
+            scalabilityaDesiredReplicas = httpx.get(f"{url_host_deploymentinfoscalabilityagauge}/getdeploymentinfoscalabilityagauge",
+                                                    headers=headers)
 
             logging.warning("scalabilityaDesiredReplicas: " +
-                            str(scalabilityaDesiredReplicas))
+                            str(scalabilityaDesiredReplicas.json()))
 
             # /getdeploymentinfofidelityagauge
             # url_host_deploymentinfofidelityagauge
-            fidelityaDesiredReplicas = httpx.post(f"{url_host_deploymentinfofidelityagauge}/getdeploymentinfofidelityagauge",
-                                                  headers=headers)
+            fidelityaDesiredReplicas = httpx.get(f"{url_host_deploymentinfofidelityagauge}/getdeploymentinfofidelityagauge",
+                                                 headers=headers)
 
             logging.warning("fidelityaDesiredReplicas: " +
-                            str(fidelityaDesiredReplicas))
+                            str(fidelityaDesiredReplicas.json()))
 
             # /getdeploymentinfoscalabilitybgauge
             # url_host_deploymentinfoscalabilitybgauge
-            scalabilitybDesiredReplicas = httpx.post(f"{url_host_deploymentinfoscalabilitybgauge}/getdeploymentinfoscalabilitybgauge",
-                                                     headers=headers)
+            scalabilitybDesiredReplicas = httpx.get(f"{url_host_deploymentinfoscalabilitybgauge}/getdeploymentinfoscalabilitybgauge",
+                                                    headers=headers)
 
             logging.warning("scalabilitybDesiredReplicas: " +
-                            str(scalabilitybDesiredReplicas))
+                            str(scalabilitybDesiredReplicas.json()))
 
             # /getdeploymentinfofidelitybgauge
             # url_host_deploymentinfofidelitybgauge
-            fidelitybDesiredReplicas = httpx.post(f"{url_host_deploymentinfofidelitybgauge}/getdeploymentinfofidelitybgauge",
-                                                  headers=headers)
+            fidelitybDesiredReplicas = httpx.get(f"{url_host_deploymentinfofidelitybgauge}/getdeploymentinfofidelitybgauge",
+                                                 headers=headers)
 
             logging.warning("fidelitybDesiredReplicas: " +
-                            str(fidelitybDesiredReplicas))
+                            str(fidelitybDesiredReplicas.json()))
 
-            requestParameter = DataKnowledge()
-            requestParameter.cpuFailureRate = cpuFailureRate
-            requestParameter.scalabilityaDesiredReplicas = scalabilityaDesiredReplicas
-            requestParameter.fidelityaDesiredReplicas = fidelityaDesiredReplicas
-            requestParameter.scalabilitybDesiredReplicas = scalabilitybDesiredReplicas
-            requestParameter.fidelitybDesiredReplicas = fidelitybDesiredReplicas
-            requestParameter.datelastevent = str(datetime.datetime.today())
+            gaugeData = {"cpuFailureRate": cpuFailureRate.json(),
+                         "scalabilityaDesiredReplicas": scalabilityaDesiredReplicas.json(),
+                         "fidelityaDesiredReplicas": fidelityaDesiredReplicas.json(),
+                         "scalabilitybDesiredReplicas": scalabilitybDesiredReplicas.json(),
+                         "fidelitybDesiredReplicas": fidelitybDesiredReplicas.json()}
 
             # Updating Knowledge
             responseKnowledge = httpx.post(f"{url_host_modelmanagerknowledge}/setknowledge",
-                                           headers=headers, json=requestParameter)
+                                           headers=headers, json=gaugeData)
 
             logging.warning(str(responseKnowledge))
 

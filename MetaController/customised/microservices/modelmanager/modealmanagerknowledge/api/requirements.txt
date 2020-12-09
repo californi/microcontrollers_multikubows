@@ -2,3 +2,4 @@ fastapi
 uvicorn
 prometheus-fastapi-instrumentator
 pydantic
+datetime

@@ -2,4 +2,3 @@ httpx
 datetime
 requests
 httpx
-pydantic

@@ -1,29 +1,21 @@
 from fastapi import FastAPI
 import logging
-from pydantic import BaseModel
-
+from model import DataKnowledge
+import knowledge_db
+import sqlite3
 
 app = FastAPI()
 
-
-class DataKnowledge(BaseModel):
-    CpuFailureRate: str
-    scalabilityaDesiredReplicas: str
-    fidelityaDesiredReplicas: str
-    scalabilitybDesiredReplicas: str
-    fidelitybDesiredReplicas: str
-    datelastevent: str
-
-
-data = DataKnowledge()
-
-
-@app.get("/getknowledge")
-def getknowledge():
-    return data
+knowledge_db.loadInitialKnowledge()
 
 
 @app.post("/setknowledge")
 async def setknowledge(request: DataKnowledge):
-    data = request
-    logging.warn(data)
+    knowledge_db.updateDataKnowledge(request)
+    logging.warn(request)
+    return "Done"
+
+
+@app.get("/getknowledge")
+def getknowledge():
+    return knowledge_db.getAllComponents()

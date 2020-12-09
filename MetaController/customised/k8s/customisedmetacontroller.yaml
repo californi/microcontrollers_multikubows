@@ -501,6 +501,7 @@ spec:
       labels:
         app: modelmanagermonitor
     spec:
+      
       serviceAccountName: kubow-user
       containers:
       - name: modelmanagermonitor
