@@ -147,6 +147,7 @@ spec:
             memory: "128Mi"
             cpu: "500m"
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -160,6 +161,89 @@ spec:
 ---
 
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfofidelityaprobe
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfofidelityaprobe
+  template:
+    metadata:
+      labels:
+        app: deploymentinfofidelityaprobe
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfofidelityaprobe
+        image: californibrs/deploymentinfofidelityaprobe
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfofidelityaprobe
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfofidelityaprobe
+  ports:
+  - port: 5041 # port from application
+
+
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploymentinfofidelityagauge
+spec:
+  selector:
+    matchLabels:
+      app: deploymentinfofidelityagauge
+  template:
+    metadata:
+      labels:
+        app: deploymentinfofidelityagauge
+    spec:
+      serviceAccountName: kubow-user
+      containers:
+      - name: deploymentinfofidelityagauge
+        image: californibrs/deploymentinfofidelityagauge
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploymentinfofidelityagauge
+spec:
+  type: LoadBalancer
+  selector:
+    app: deploymentinfofidelityagauge
+  ports:
+  - port: 5051 # port from application
+---
+
+
+
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -168,7 +252,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - host: "nginx-ingress.failure.svc"
+  - host: "nginx-ingress.gauges.svc"
     http:
       paths:
 
@@ -190,4 +274,14 @@ spec:
         backend:
           serviceName: deploymentinfoscalabilityagauge
           servicePort: 5050             
+
+
+      - path: /getdeploymentinfofidelityagauge    
+        backend:
+          serviceName: deploymentinfofidelityagauge
+          servicePort: 5051
+      - path: /setdeploymentinfofidelityagauge
+        backend:
+          serviceName: deploymentinfofidelityagauge
+          servicePort: 5051             
 
