@@ -1,6 +1,7 @@
 import sqlite3
 from model import DataKnowledge
 import datetime
+import json
 
 
 connection = sqlite3.connect('knowledge.db', check_same_thread=False)
@@ -19,7 +20,8 @@ def getAllComponents():
                         controller_components"""
 
     cursor.execute(commandSelect)
-    results = cursor.fetchall()
+    results = [dict((cursor.description[i][0], value)
+                    for i, value in enumerate(row)) for row in cursor.fetchall()]
     return results
 
 

@@ -529,6 +529,47 @@ spec:
   - port: 5070 # port from application
 ---
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: architectureevaluator
+spec:
+  selector:
+    matchLabels:
+      app: architectureevaluator
+  template:
+    metadata:
+      labels:
+        app: architectureevaluator
+    spec:
+      
+      serviceAccountName: kubow-user
+      containers:
+      - name: architectureevaluator
+        image: californibrs/architectureevaluator
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: architectureevaluator
+spec:
+  type: LoadBalancer
+  selector:
+    app: architectureevaluator
+  ports:
+  - port: 5080 # port from application
+---
+
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:

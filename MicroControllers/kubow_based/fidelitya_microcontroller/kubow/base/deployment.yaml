@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: fidelitya-mc-kubow
 spec:
-  replicas: 0 # enabled by default
+  replicas: 1 # enabled by default
   selector:
     matchLabels:
       app: fidelitya-mc-kubow
