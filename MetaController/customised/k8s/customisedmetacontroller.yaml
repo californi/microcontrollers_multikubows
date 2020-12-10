@@ -570,6 +570,47 @@ spec:
   - port: 5080 # port from application
 ---
 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adaptationmanager
+spec:
+  selector:
+    matchLabels:
+      app: adaptationmanager
+  template:
+    metadata:
+      labels:
+        app: adaptationmanager
+    spec:
+      
+      serviceAccountName: kubow-user
+      containers:
+      - name: adaptationmanager
+        image: californibrs/adaptationmanager
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: adaptationmanager
+spec:
+  type: LoadBalancer
+  selector:
+    app: adaptationmanager
+  ports:
+  - port: 5090 # port from application
+---  
+
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
@@ -644,3 +685,9 @@ spec:
         backend:
           serviceName: modelmanagerknowledge
           servicePort: 5071              
+
+
+      - path: /findingStrategy
+        backend:
+          serviceName: adaptationmanager
+          servicePort: 5090                        

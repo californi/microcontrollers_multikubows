@@ -6,6 +6,8 @@ import json
 import architectureEvaluator
 
 url_host_modelmanagerknowledge = 'http://modelmanagerknowledge:5071'
+url_host_adaptationmanager = 'http://adaptationmanager:5090'
+
 
 headers = {'Content-Type': 'application/json',
            'Authorization': 'Bearer {}'.format('bWljcm9jb250cm9sbGVycw==')}
@@ -31,6 +33,8 @@ def main():
                 time.sleep(10)
                 continue
             else:
+                response = httpx.get(
+                    f"{url_host_adaptationmanager}/findingStrategy", headers=headers)
                 logging.error("Archirecture is not OK.")
 
         except httpx.RequestError as exc:
