@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: scalabilityb-mc-kubow
 spec:
-  replicas: 1 # disabled by default
+  replicas: 0 # disabled by default
   selector:
     matchLabels:
       app: scalabilityb-mc-kubow
