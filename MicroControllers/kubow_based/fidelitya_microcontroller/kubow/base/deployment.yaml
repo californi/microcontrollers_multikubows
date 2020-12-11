@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fidelitya-mc-kubow
+  name: fidelitya
 spec:
-  replicas: 0 # enabled by default
+  replicas: 1 # enabled by default
   selector:
     matchLabels:
-      app: fidelitya-mc-kubow
+      app: fidelitya
   template:
     metadata:
       labels:
-        app: fidelitya-mc-kubow
+        app: fidelitya
     spec:
       affinity:
         nodeAffinity:
@@ -21,18 +21,18 @@ spec:
                   - key: localhost.k8s.io/layer
                     operator: In
                     values:
-                      - fidelitya-mc-kubow
-      serviceAccountName: fidelitya-mc-kubow-user
+                      - fidelitya
+      serviceAccountName: fidelitya-user
       volumes:
-        - name: fidelitya-mc-kubow-config
+        - name: fidelitya-config
           configMap:
-            name: fidelitya-mc-kubow-config
-        - name: fidelitya-mc-kubow-model
+            name: fidelitya-config
+        - name: fidelitya-model
           configMap:
-            name: fidelitya-mc-kubow-model
-        - name: fidelitya-mc-kubow-adaptation
+            name: fidelitya-model
+        - name: fidelitya-adaptation
           configMap:
-            name: fidelitya-mc-kubow-adaptation
+            name: fidelitya-adaptation
       containers:
         - image: cmendes/kubow:yellow-2
           name: kubow
@@ -49,36 +49,47 @@ spec:
             - name: TARGET_PATH
               value: "targets"
           volumeMounts:
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/targets/system/rainbow.properties
               subPath: rainbow.properties
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/targets/system/probes.yaml
               subPath: probes.yaml
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/targets/system/gauges.yaml
               subPath: gauges.yaml
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/targets/system/effectors.yaml
               subPath: effectors.yaml
-            - name: fidelitya-mc-kubow-adaptation
+            - name: fidelitya-adaptation
               mountPath: /usr/share/kubow/targets/system/adaptation/tactics.s
               subPath: tactics.s
-            - name: fidelitya-mc-kubow-adaptation
+            - name: fidelitya-adaptation
               mountPath: /usr/share/kubow/targets/system/adaptation/strategies.s
               subPath: strategies.s
-            - name: fidelitya-mc-kubow-adaptation
+            - name: fidelitya-adaptation
               mountPath: /usr/share/kubow/targets/system/utilities.yaml
               subPath: utilities.yaml
-            - name: fidelitya-mc-kubow-model
+            - name: fidelitya-model
               mountPath: /usr/share/kubow/targets/system/model/kubernetes-family.acme
               subPath: kubernetes-family.acme
-            - name: fidelitya-mc-kubow-model
+            - name: fidelitya-model
               mountPath: /usr/share/kubow/targets/system/model/target-system.acme
               subPath: target-system.acme
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/targets/system/op.map
               subPath: op.map
-            - name: fidelitya-mc-kubow-config
+            - name: fidelitya-config
               mountPath: /usr/share/kubow/log4j.properties
               subPath: log4j.properties
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fidelitya
+spec:
+  type: LoadBalancer
+  selector:
+    app: fidelitya
+  ports:
+  - port: 8888 # port from application

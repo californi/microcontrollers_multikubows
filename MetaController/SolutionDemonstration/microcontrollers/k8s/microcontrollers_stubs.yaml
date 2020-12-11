@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: componenta
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: componenta
+  template:
+    metadata:
+      labels:
+        app: componenta
+    spec:
+      
+      serviceAccountName: kubow-user
+      containers:
+      - name: componenta
+        image: californibrs/componenta
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: componenta
+spec:
+  type: LoadBalancer
+  selector:
+    app: componenta
+  ports:
+  - port: 5100 # port from application
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: componentb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: componentb
+  template:
+    metadata:
+      labels:
+        app: componentb
+    spec:
+      
+      serviceAccountName: kubow-user
+      containers:
+      - name: componentb
+        image: californibrs/componentb
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: componentb
+spec:
+  type: LoadBalancer
+  selector:
+    app: componentb
+  ports:
+  - port: 5101 # port from application
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: componentc
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: componentc
+  template:
+    metadata:
+      labels:
+        app: componentc
+    spec:
+      
+      serviceAccountName: kubow-user
+      containers:
+      - name: componentc
+        image: californibrs/componentc
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "32Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: componentc
+spec:
+  type: LoadBalancer
+  selector:
+    app: componentc
+  ports:
+  - port: 5102 # port from application
+---  

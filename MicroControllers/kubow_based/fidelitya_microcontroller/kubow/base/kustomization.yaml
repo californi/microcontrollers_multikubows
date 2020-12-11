@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 configMapGenerator:
-  - name: fidelitya-mc-kubow-config
+  - name: fidelitya-config
     files:
     - config/rainbow.properties
     - config/probes.yaml
@@ -9,11 +9,11 @@ configMapGenerator:
     - config/effectors.yaml
     - config/log4j.properties
 
-  - name: fidelitya-mc-kubow-model
+  - name: fidelitya-model
     files:
     - model/kubernetes-family.acme
     
-  - name: fidelitya-mc-kubow-adaptation
+  - name: fidelitya-adaptation
     files:
     - adaptation/strategies.s
     - adaptation/tactics.s

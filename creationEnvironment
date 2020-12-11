@@ -1,3 +1,9 @@
+## Cluster configurations
+
+minikube start --cpus=5 --vm-driver hyperv --hyperv-virtual-switch "Primary Virtual Switch" --kubernetes-version=v1.16.10
+minikube addons enable ingress
+
+
 # Delete
 kubectl delete -k .\tools\monitoring\
 kubectl delete -k .\TargetSystem\kube-znn\overlay\default\
@@ -8,7 +14,11 @@ kubectl delete -k .\Microcontrollers\kubow_based\fidelityb_microcontroller\kubow
 kubectl delete -k .\Microcontrollers\kubow_based\scalabilitya_microcontroller\kubow\overlay\kube-znn\
 kubectl delete -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kubow\overlay\kube-znn\
 
-kubectl delete -k .\MetaController\kubow\overlay\kube-znn\
+kubectl delete -k .\MetaController\kubow\overlay\controller_targetsystem\
+
+# Metacontroller - Solution Demonstration
+kubectl delete -f .\MetaController\SolutionDemonstration\microcontrollers\k8s\
+kubectl delete -k .\MetaController\SolutionDemonstration\overlay\controllertargetsystem\
 
 
 # Create
@@ -23,4 +33,10 @@ kubectl apply -k .\Microcontrollers\kubow_based\scalabilityb_microcontroller\kub
 
 
 
-kubectl apply -k .\MetaController\kubow\overlay\kube-znn\
+kubectl apply -k .\MetaController\kubow\overlay\controller_targetsystem\
+
+
+# Metacontroller - Solution Demonstration
+
+kubectl apply -f .\MetaController\SolutionDemonstration\microcontrollers\k8s\
+kubectl apply -k .\MetaController\SolutionDemonstration\overlay\controllertargetsystem\

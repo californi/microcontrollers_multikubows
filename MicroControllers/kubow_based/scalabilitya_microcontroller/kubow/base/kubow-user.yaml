@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: scalabilitya-mc-kubow-user
+  name: scalabilitya-user
 rules:
 - apiGroups: ["apps"]
   resources:
@@ -13,18 +13,18 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: scalabilitya-mc-kubow-user
+  name: scalabilitya-user
   namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: scalabilitya-mc-kubow-user
+  name: scalabilitya-user
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: scalabilitya-mc-kubow-user
+  name: scalabilitya-user
 subjects:
 - kind: ServiceAccount
-  name: scalabilitya-mc-kubow-user
+  name: scalabilitya-user
   namespace: default

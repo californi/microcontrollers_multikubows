@@ -1,19 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 configMapGenerator:
-  - name: scalabilitya-mc-kubow-config
+  - name: scalabilitya-config
     behavior: merge
     files:
     - config/rainbow.properties
     - config/probes.yaml
     - config/gauges.yaml
 
-  - name: scalabilitya-mc-kubow-model
+  - name: scalabilitya-model
     behavior: merge
     files:
     - model/target-system.acme
     
-  - name: scalabilitya-mc-kubow-adaptation
+  - name: scalabilitya-adaptation
     behavior: merge
     files:
     - adaptation/strategies.s

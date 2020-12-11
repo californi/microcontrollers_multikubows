@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: fidelityb-mc-kubow-user
+  name: fidelityb-user
 rules:
 - apiGroups: ["apps"]
   resources:
@@ -13,18 +13,18 @@ rules:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: fidelityb-mc-kubow-user
+  name: fidelityb-user
   namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
-  name: fidelityb-mc-kubow-user
+  name: fidelityb-user
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: fidelityb-mc-kubow-user
+  name: fidelityb-user
 subjects:
 - kind: ServiceAccount
-  name: fidelityb-mc-kubow-user
+  name: fidelityb-user
   namespace: default

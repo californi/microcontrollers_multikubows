@@ -1,0 +1,94 @@
+import kubernetes-family.acme;
+System KubeZnnSystem : KubernetesFam = new KubernetesFam extended with {
+    
+    Component failureManagerS : ServiceT = new ServiceT extended with {
+      Port apiPort  = { }
+      Property name = "failuremanager";
+
+      Property cpufailure = 0.0;
+    }
+
+    Component failureManagerD : DeploymentT = new DeploymentT extended with {
+      Port apiPort  = { }
+
+      Property namespace = "default";
+      Property name = "failuremanager";
+    }
+
+    Connector failureManagerServiceConnector  = new LabelSelectorConnectorT extended with {
+      Property selectors = <[name : string = "app";value : string = "failuremanager";]>;
+    }
+
+    Attachment failureManagerS.apiPort to failureManagerServiceConnector.callee;
+    Attachment failureManagerD.apiPort to failureManagerServiceConnector.caller;
+  
+
+
+    Component componentaS : ServiceT = new ServiceT extended with {
+      Port apiPort  = { }
+      Property name = "componenta";
+    }
+
+    Component componentaD : DeploymentT = new DeploymentT extended with {
+      Port apiPort  = { }
+
+      Property namespace = "default";
+      Property name = "componenta";
+      Property minReplicas = 0;
+      Property maxReplicas = 1;      
+    }
+
+    Connector componentaServiceConnector  = new LabelSelectorConnectorT extended with {
+      Property selectors = <[name : string = "app";value : string = "componenta";]>;
+    }
+
+    Attachment componentaS.apiPort to componentaServiceConnector.callee;
+    Attachment componentaD.apiPort to componentaServiceConnector.caller;
+
+
+  
+    Component componentbS : ServiceT = new ServiceT extended with {
+      Port apiPort  = { }
+      Property name = "componentb";
+    }
+
+    Component componentbD : DeploymentT = new DeploymentT extended with {
+      Port apiPort  = { }
+
+      Property namespace = "default";
+      Property name = "componentb";
+      Property minReplicas = 0;
+      Property maxReplicas = 1;        
+    }
+
+    Connector componentbServiceConnector  = new LabelSelectorConnectorT extended with {
+      Property selectors = <[name : string = "app";value : string = "componentb";]>;
+    }
+
+    Attachment componentbS.apiPort to componentbServiceConnector.callee;
+    Attachment componentbD.apiPort to componentbServiceConnector.caller;
+
+
+    Component componentcS : ServiceT = new ServiceT extended with {
+      Port apiPort  = { }
+      Property name = "componentc";
+    }
+
+    Component componentcD : DeploymentT = new DeploymentT extended with {
+      Port apiPort  = { }
+
+      Property namespace = "default";
+      Property name = "componentc";
+      Property minReplicas = 0;
+      Property maxReplicas = 1;        
+    }
+
+    Connector componentcServiceConnector  = new LabelSelectorConnectorT extended with {
+      Property selectors = <[name : string = "app";value : string = "componentc";]>;
+    }
+
+    Attachment componentcS.apiPort to componentcServiceConnector.callee;
+    Attachment componentcD.apiPort to componentcServiceConnector.caller;
+
+
+}

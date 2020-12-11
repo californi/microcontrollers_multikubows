@@ -1,0 +1,78 @@
+gauge-types:
+  KubowGaugeT:
+    commands:
+      setServiceProperty: ServiceT.setServiceProperty (Object)
+      setDeploymentInfo: DeploymentT.setDeploymentInfo (Object)
+      setDeploymentProperty: DeploymentT.setDeploymentProperty (Object)
+    setupParams:
+      targetIP:
+        type: String
+        default: "127.0.0.1"
+      propertyPath:
+        type: String
+        default: ""
+      propertyName:
+        type: String
+        default: ""
+      beaconPeriod:
+        type: long
+        default: 3000
+      javaClass:
+        type: String
+        default: "br.unifor.kubow.gauges.KubowGauge"
+    configParams:
+      targetProbeType:
+        type: String
+        default: ~
+    comment: ""
+gauge-instances:
+
+  KubeComponentaInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": componentaD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.componenta.probe@*   
+
+  KubeComponentbInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": componentbD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.componentb.probe@*      
+
+  KubeComponentcInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": componentcD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.componentc.probe@*            
+
+  KubeFailureManagerInfoGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setDeploymentInfo()": failureManagerD.setDeploymentInfo($<jsonValue>)
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: deployments.default.failuremanager.probe@*     
+
+  CpufailureGauge:
+    type: KubowGaugeT
+    model: "KubeZnnSystem:Acme"
+    commands:
+      "setServiceProperty()": "failureManagerS.setServiceProperty($<jsonValue>,<cpufailure>)"
+    setupValues:
+      targetIP: "127.0.0.1"
+    configValues:
+      targetProbeType: default-failuremanager-cpufailure@*      
