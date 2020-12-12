@@ -6,15 +6,24 @@ define boolean NoFailureRate = M.failureManagerS.cpufailure == 0.0;
 define boolean LowFailureRate = M.failureManagerS.cpufailure > 0.0 && M.failureManagerS.cpufailure <= 0.5;
 define boolean HighFailureRate = M.failureManagerS.cpufailure > 0.5;
 
-strategy activateHighFailureRate [ NoFailureRate || LowFailureRate || HighFailureRate ] {  
+strategy activateNoFailureRate [ NoFailureRate ] {  
   t0: (NoFailureRate) -> addHighScalabilityHighQuality() @[20000 /*ms*/] {
     t0a: (success) -> done;
-  }  
-  t1: (LowFailureRate) -> activateLowScalabilityHighQuality() @[2500 /*ms*/] {
-    t1a: (success) -> done;
-  }    
-  t2: (HighFailureRate) -> addLowScalabilityLowQuality() @[20000 /*ms*/] {
-    t2a: (success) -> done;
   }   
-  t3: (default) -> TNULL;
+  t1: (default) -> TNULL;
+}
+
+strategy activateLowFailureRate [ LowFailureRate ] {  
+  t0: (LowFailureRate) -> activateLowScalabilityHighQuality() @[20000 /*ms*/] {
+    t0a: (success) -> done;
+  }      
+  t1: (default) -> TNULL;
+}
+
+
+strategy activateHighFailureRate [ HighFailureRate ] {    
+  t0: (HighFailureRate) -> addLowScalabilityLowQuality() @[20000 /*ms*/] {
+    t0a: (success) -> done;
+  }   
+  t1: (default) -> TNULL;
 }

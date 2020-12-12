@@ -15,7 +15,7 @@ Family KubernetesFam = {
   Component Type DeploymentT = {
     Property name : string;
     Property namespace : string;
-    Property desiredReplicas : int << default : int = 0; >>;
+    Property desiredReplicas : int << default : int = 1; >>;
     Property currentReplicas : int << default : int = 0; >>;
     Property availableReplicas : int;
     Property minReplicas : int << default : int = 0; >>;

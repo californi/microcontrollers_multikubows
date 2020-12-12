@@ -1,18 +1,27 @@
 module kubow.strategies;
 import model "KubeZnnSystem:Acme" { KubeZnnSystem as M, KubernetesFam as K };
 
+define boolean removeInconsistency = M.scalabilityaD.desiredReplicas > 1 || M.scalabilitybD.desiredReplicas > 1 || M.fidelityaD.desiredReplicas > 1 || M.fidelitybD.desiredReplicas > 1;
 
 tactic activateLowScalabilityHighQuality(){
   int futureReplicasScalabilityb = M.scalabilitybD.desiredReplicas + 1;
   int futureReplicasFidelitya = M.fidelityaD.desiredReplicas + 1;
   condition {
-    (M.scalabilitybD.maxReplicas > M.scalabilitybD.desiredReplicas) || (M.fidelityaD.maxReplicas > M.fidelityaD.desiredReplicas);
+    (M.scalabilitybD.desiredReplicas == 0) || (M.fidelityaD.desiredReplicas == 0);
   }
   action {
-    M.scaleUp(M.scalabilitybD, 1);
-    M.scaleDown(M.scalabilityaD, 1);
-    M.scaleUp(M.fidelityaD, 1);
-    M.scaleDown(M.fidelitybD, 1);    
+    if(M.scalabilitybD.desiredReplicas == 0){
+      M.scaleUp(M.scalabilitybD, 1);
+    }
+    if(M.scalabilityaD.desiredReplicas > 0){
+      M.scaleDown(M.scalabilityaD, 1);
+    }
+    if(M.fidelityaD.desiredReplicas == 0){
+      M.scaleUp(M.fidelityaD, 1);
+    }
+    if(M.fidelitybD.desiredReplicas > 0){
+      M.scaleDown(M.fidelitybD, 1);    
+    }
   }
   effect @[10000]{
     ((futureReplicasScalabilityb == M.scalabilitybD.desiredReplicas) || (futureReplicasFidelitya == M.fidelityaD.desiredReplicas));
@@ -21,38 +30,50 @@ tactic activateLowScalabilityHighQuality(){
 
 tactic addLowScalabilityLowQuality() {
   int futureReplicasScalabilityb = M.scalabilitybD.desiredReplicas + 1;
-  int futureReplicasScalabilitya = M.scalabilityaD.desiredReplicas - 1;
   int futureReplicasFidelityb = M.fidelitybD.desiredReplicas + 1;
-  int futureReplicasFidelitya = M.fidelityaD.desiredReplicas - 1;  
   condition {
-    (M.scalabilitybD.maxReplicas > M.scalabilitybD.desiredReplicas && M.scalabilityaD.minReplicas < M.scalabilityaD.desiredReplicas && M.fidelitybD.maxReplicas > M.fidelitybD.desiredReplicas && M.fidelityaD.minReplicas < M.fidelityaD.desiredReplicas);
+    (M.scalabilitybD.desiredReplicas == 0 || M.fidelitybD.desiredReplicas == 0);
   }
   action {
-    M.scaleUp(M.scalabilitybD, 1);
-    M.scaleDown(M.scalabilityaD, 1);
-    M.scaleUp(M.fidelitybD, 1);
-    M.scaleDown(M.fidelityaD, 1);    
+    if(M.scalabilitybD.desiredReplicas == 0){
+      M.scaleUp(M.scalabilitybD, 1);
+    }
+    if(M.scalabilityaD.desiredReplicas > 0){
+      M.scaleDown(M.scalabilityaD, 1);
+    }
+    if(M.fidelitybD.desiredReplicas == 0){
+      M.scaleUp(M.fidelitybD, 1);
+    }
+    if(M.fidelityaD.desiredReplicas > 0){
+      M.scaleDown(M.fidelityaD, 1);    
+    }
   }
   effect @[10000]{
-    ((futureReplicasScalabilityb == M.scalabilitybD.desiredReplicas && futureReplicasScalabilitya == M.scalabilityaD.desiredReplicas) && (futureReplicasFidelityb == M.fidelitybD.desiredReplicas && futureReplicasFidelitya == M.fidelityaD.desiredReplicas));
+    ((futureReplicasScalabilityb == M.scalabilitybD.desiredReplicas) || (futureReplicasFidelityb == M.fidelitybD.desiredReplicas));
   }
 }
 
 tactic addHighScalabilityHighQuality() {
   int futureReplicasScalabilitya = M.scalabilityaD.desiredReplicas + 1;
-  int futureReplicasScalabilityb = M.scalabilitybD.desiredReplicas - 1;
   int futureReplicasFidelitya = M.fidelityaD.desiredReplicas + 1;
-  int futureReplicasFidelityb = M.fidelitybD.desiredReplicas - 1;  
   condition {
-    (M.scalabilityaD.maxReplicas > M.scalabilityaD.desiredReplicas && M.scalabilitybD.minReplicas < M.scalabilitybD.desiredReplicas && M.fidelityaD.maxReplicas > M.fidelityaD.desiredReplicas && M.fidelitybD.minReplicas < M.fidelitybD.desiredReplicas);
+    (M.scalabilityaD.desiredReplicas == 0 || M.fidelityaD.desiredReplicas == 0);
   }
   action {
-    M.scaleUp(M.scalabilityaD, 1);
-    M.scaleDown(M.scalabilitybD, 1);
-    M.scaleUp(M.fidelityaD, 1);
-    M.scaleDown(M.fidelitybD, 1);    
+    if(M.scalabilityaD.desiredReplicas == 0){
+      M.scaleUp(M.scalabilityaD, 1);
+    }
+    if(M.scalabilitybD.desiredReplicas > 0){
+      M.scaleDown(M.scalabilitybD, 1);
+    }
+    if(M.fidelityaD.desiredReplicas == 0){
+      M.scaleUp(M.fidelityaD, 1);
+    }
+    if(M.fidelitybD.desiredReplicas > 0){
+      M.scaleDown(M.fidelitybD, 1);    
+    }
   }
   effect @[10000]{
-    ((futureReplicasScalabilitya == M.scalabilityaD.desiredReplicas && futureReplicasScalabilityb == M.scalabilitybD.desiredReplicas) && (futureReplicasFidelitya == M.fidelityaD.desiredReplicas && futureReplicasFidelityb == M.fidelitybD.desiredReplicas));
+    (futureReplicasScalabilitya == M.scalabilityaD.desiredReplicas || futureReplicasFidelitya == M.fidelityaD.desiredReplicas);
   }
 }
