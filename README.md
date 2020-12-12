@@ -41,7 +41,8 @@ kubectl apply -k .\Testing\k6\
 
 ## Generating logs
 
-kubectl logs pod/metacontroller-kubow-848f5c678-w9wg4 >> metacontrol.log
+kubectl logs pod/metacontroller-kubow-68ccb84f59-k4jf2 >> metacontrol.log
+
 
 ## Updating PowerShell terminal
 

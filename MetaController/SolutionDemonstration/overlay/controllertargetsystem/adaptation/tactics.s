@@ -11,7 +11,7 @@ tactic addComponentaRemoveComponentc() {
     M.scaleUp(M.componentaD, 1);
     M.scaleDown(M.componentcD, 1);
   }
-  effect {
+  effect @[10000] {
     futureReplicasComponenta == M.componentaD.desiredReplicas && futureReplicasComponentc == M.componentcD.desiredReplicas;
   }
 }
@@ -26,7 +26,7 @@ tactic addComponentcRemoveComponenta() {
     M.scaleUp(M.componentcD, 1);
     M.scaleDown(M.componentaD, 1);
   }
-  effect {
+  effect @[10000] {
     futureReplicasComponentc == M.componentcD.desiredReplicas && futureReplicasComponenta == M.componentaD.desiredReplicas;
   }
 }
