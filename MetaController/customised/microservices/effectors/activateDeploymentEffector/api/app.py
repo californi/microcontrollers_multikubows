@@ -43,7 +43,7 @@ async def setactivatedeploymenteffector(request: DataEffector):
         activate_deployment(apps_v1, request.deployment_name, activate)
 
         logging.warn(request)
-        return request
+        return "Done."
 
     except ApiException as e:
         if e.status == 404:

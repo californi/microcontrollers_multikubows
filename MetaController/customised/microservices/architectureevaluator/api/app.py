@@ -34,7 +34,7 @@ def main():
                 continue
             else:
                 response = httpx.get(
-                    f"{url_host_adaptationmanager}/findingStrategy", headers=headers)
+                    f"{url_host_adaptationmanager}/findingstrategy", headers=headers)
                 logging.error("Archirecture is not OK.")
 
         except httpx.RequestError as exc:

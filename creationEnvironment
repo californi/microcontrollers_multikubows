@@ -20,6 +20,8 @@ kubectl delete -k .\MetaController\kubow\overlay\controller_targetsystem\
 kubectl delete -f .\MetaController\SolutionDemonstration\microcontrollers\k8s\
 kubectl delete -k .\MetaController\SolutionDemonstration\overlay\controllertargetsystem\
 
+# Taliored based Metacontroller microservices 
+kubectl delete -f .\MetaController\customised\k8s\
 
 # Create
 kubectl apply -k .\tools\monitoring\
@@ -40,3 +42,6 @@ kubectl apply -k .\MetaController\kubow\overlay\controller_targetsystem\
 
 kubectl apply -f .\MetaController\SolutionDemonstration\microcontrollers\k8s\
 kubectl apply -k .\MetaController\SolutionDemonstration\overlay\controllertargetsystem\
+
+# Taliored based Metacontroller microservices 
+kubectl apply -f .\MetaController\customised\k8s\
